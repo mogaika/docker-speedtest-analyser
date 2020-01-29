@@ -36,7 +36,7 @@ the container please moint a volume in ``/var/www/html/data/``
 | Variable  | Type | Usage |  Example Value | Default |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | CRONJOB_ITERATION  | INT  | Time between speedtests in minutes. Value 15 means the cronjob runs every 15 minutes. Keep undefined to run hourly. | 15 | 60 |
-| SPEEDTEST_PARAMS  | STRING  | append extra parameter for cli command.<br/> `speedtest-cli --simple $SPEEDTEST_PARAMS` <br/> Check [parameter documentation](https://github.com/sivel/speedtest-cli#usage)  | --mini https://speedtest.test.fr | none |
+| SPEED_DOWNLOAD_URL | STRING  | url to file or page | https://cloud-images.ubuntu.com/minimal/releases/xenial/release/ubuntu-16.04-minimal-cloudimg-amd64-root.tar.xz | none |
 
 # Config
 You can configure the visualization frontend via ``appConfig.js``

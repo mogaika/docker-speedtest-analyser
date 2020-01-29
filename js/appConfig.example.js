@@ -6,9 +6,9 @@ let appConfig = {
   "dateFormat": "DD.MM.YYYY",
   "locale": "de",
   "labels": {
-    "download": "Download",
-    "ping": "Ping",
-    "upload": "Upload"
+    "download": "Download speed (Megabytes/sec)",
+    "ping": "Took time (seconds)",
+    "upload": "Unused (sorry)"
   },
   "daterange": {
     "timePicker": true,

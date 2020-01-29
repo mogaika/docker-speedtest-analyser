@@ -15,7 +15,7 @@ RUN apk update && apk add \
   py-pip
 
 
-RUN pip install speedtest-cli
+RUN pip install requests
 
 # remove default content
 RUN rm -R /var/www/*
@@ -29,10 +29,6 @@ RUN mkdir -p /var/www/html
 # touch required files
 RUN touch /var/log/nginx/access.log && touch /var/log/nginx/error.log
 
-# install vhost config
-ADD ./config/vhost.conf /etc/nginx/conf.d/default.conf
-ADD config/nginxEnv.conf /etc/nginx/modules/nginxEnv.conf
-
 # install webroot files
 ADD ./ /var/www/html/
 
@@ -41,6 +37,11 @@ RUN npm install -g yarn && cd /var/www/html/ && yarn install
 
 EXPOSE 80
 EXPOSE 443
+
+# install vhost config
+ADD ./config/vhost.conf /etc/nginx/conf.d/default.conf
+ADD config/nginxEnv.conf /etc/nginx/modules/nginxEnv.conf
+ADD nginx_override.conf /etc/nginx/conf.d/nginx_override.conf
 
 RUN chown -R nginx:nginx /var/www/html/
 RUN chmod +x /var/www/html/config/run.sh
