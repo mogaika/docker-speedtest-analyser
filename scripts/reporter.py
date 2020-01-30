@@ -50,21 +50,30 @@ def cycle_over_last_speeds():
 
 class SpeedCollector(object):
     def _download_time_metric(self, value=None):
+        value = round(value, 5) if value is not None else None
         return GaugeMetricFamily('speedtest_last_downloading_time',
                                  'File downloading time spent', unit='seconds', value=value)
 
     def _speed_metric(self, value=None):
+        value = round(value, 5) if value is not None else None
         return GaugeMetricFamily('speedtest_last_speed',
-                                 'Downloading speed in Megabytes', unit='bytes', value=value)
+                                 'Downloading speed in bytes', unit='bytes', value=value)
+
+    def _speed_mega_metric(self, value=None):
+        value = round(value, 5) if value is not None else None
+        return GaugeMetricFamily('speedtest_last_speed',
+                                 'Downloading speed in megabytes', unit='megabytes', value=value)
 
     def describe(self):
         yield self._download_time_metric()
         yield self._speed_metric()
+        yield self._speed_mega_metric()
 
     def collect(self):
         for time, speed in cycle_over_last_speeds():
             yield self._download_time_metric(value=time)
             yield self._speed_metric(value=speed)
+            yield self._speed_mega_metric(value=speed/1024.0/1024.0)
 
 
 REGISTRY.register(SpeedCollector())
