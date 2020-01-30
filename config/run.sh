@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+set -m
+
 echo "Starting run.sh"
 
 cat /var/www/html/config/crontab.default > /var/www/html/config/crontab
@@ -10,13 +13,14 @@ crontab /var/www/html/config/crontab
 
 echo "Starting Cronjob"
 crond -l 2 -f &
+P1=$!
 
 echo "starting nginx"
 nginx -g "daemon off;" &
-P1=$!
+P2=$!
 
 echo "starting prometeus reporter"
 python /var/www/html/scripts/reporter.py &
-P2=$!
+P3=$!
 
-wait $P1 $P2
+fg %1

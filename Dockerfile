@@ -4,7 +4,8 @@ FROM alpine:3.9
 MAINTAINER Tobias Rös - <roes@amicaldo.de>
 
 # install dependencies
-RUN apk update && apk add \
+RUN \
+  apk update && apk add \
   bash \
   git \
   nodejs \
@@ -18,13 +19,14 @@ RUN apk update && apk add \
   mkdir -p /etc/nginx /run/nginx /etc/nginx/global /var/www/html && \
   touch /var/log/nginx/access.log && touch /var/log/nginx/error.log
 
-# install webroot files
-ADD ./ /var/www/html/
+ADD package.json yarn.lock /var/www/html/
 
 RUN npm install -g yarn && cd /var/www/html/ && yarn install
 
 EXPOSE 80
 EXPOSE 9999
+
+ADD ./ /var/www/html/
 
 # install vhost config
 ADD config/vhost.conf /etc/nginx/conf.d/default.conf

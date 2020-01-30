@@ -37,7 +37,7 @@ the container please moint a volume in ``/var/www/html/data/``
 | Variable  | Type | Usage |  Example Value | Default |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | CRONJOB_ITERATION  | INT  | Time between speedtests in minutes. Value 15 means the cronjob runs every 15 minutes. Keep undefined to run hourly. | 15 | 60 |
-| SPEED_DOWNLOAD_URL | STRING  | url to file or page | https://cloud-images.ubuntu.com/minimal/releases/xenial/release/ubuntu-16.04-minimal-cloudimg-amd64-root.tar.xz | none |
+| SPEED_DOWNLOAD_URL | STRING  | url to file or page. protocol required (http://) | http://ipv4.download.thinkbroadband.com:8080/20MB.zip | none |
 
 # Prometheus gauges
 - speedtest_last_downloading_time

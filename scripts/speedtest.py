@@ -4,15 +4,19 @@ import time
 import os
 import csv
 import requests
+import logging
 
 
 def run_speedtest():
     readed_bytes = 0
     time_start = time.time()
-    with requests.get(os.environ['SPEED_DOWNLOAD_URL'], stream=True) as reader:
+
+    url = os.environ['SPEED_DOWNLOAD_URL']
+    logging.info("Starting download speed measure for url {}".format(url))
+
+    with requests.get(url, stream=True) as reader:
         reader.raise_for_status()
         for chunk in reader.iter_content(chunk_size=1024*1024):
-            print("loaded part {}".format(readed_bytes/1024.0/1024.0))
             if chunk:
                 readed_bytes += len(chunk)
 
@@ -20,6 +24,9 @@ def run_speedtest():
 
     time_amount = time_end - time_start
     download = readed_bytes / time_amount
+
+    logging.info("Loaded {} bytes in {} seconds. Speed: {} bytes/sec ({} MBytes/sec".format(
+        readed_bytes, time_amount, download, download/1024.0/1024.0))
 
     file_path = os.path.dirname(os.path.abspath(__file__))+'/../data/result.csv'
     file_exist = os.path.isfile(file_path)
@@ -38,4 +45,7 @@ def run_speedtest():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)-15s %(levelname)-8s %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
     run_speedtest()
