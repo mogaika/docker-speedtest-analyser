@@ -12,36 +12,23 @@ RUN apk update && apk add \
   nginx \
   nginx-mod-http-lua \
   python3 \
-  py-pip
-
-
-RUN pip install requests
-
-# remove default content
-RUN rm -R /var/www/*
-
-# create directory structure
-RUN mkdir -p /etc/nginx
-RUN mkdir -p /run/nginx
-RUN mkdir -p /etc/nginx/global
-RUN mkdir -p /var/www/html
-
-# touch required files
-RUN touch /var/log/nginx/access.log && touch /var/log/nginx/error.log
+  py-pip && \
+  pip install requests prometheus_client && \
+  rm -R /var/www/* && \
+  mkdir -p /etc/nginx /run/nginx /etc/nginx/global /var/www/html && \
+  touch /var/log/nginx/access.log && touch /var/log/nginx/error.log
 
 # install webroot files
 ADD ./ /var/www/html/
 
-# install bower dependencies
 RUN npm install -g yarn && cd /var/www/html/ && yarn install
 
 EXPOSE 80
-EXPOSE 443
+EXPOSE 9999
 
 # install vhost config
-ADD ./config/vhost.conf /etc/nginx/conf.d/default.conf
+ADD config/vhost.conf /etc/nginx/conf.d/default.conf
 ADD config/nginxEnv.conf /etc/nginx/modules/nginxEnv.conf
-ADD nginx_override.conf /etc/nginx/conf.d/nginx_override.conf
 
 RUN chown -R nginx:nginx /var/www/html/
 RUN chmod +x /var/www/html/config/run.sh

@@ -29,14 +29,19 @@ the container please moint a volume in ``/var/www/html/data/``
 ### Setup:
 1. Moint host volume onto ``/var/www/html/data/``
 2. Map preferred host port on port _80_
-3. Build container from image
-4. Enjoy continious speed statistics after a while
+3. Map prometheus host port on port _9999_
+4. Build container from image
+5. Enjoy continious speed statistics after a while
 
 # Environment variables
 | Variable  | Type | Usage |  Example Value | Default |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | CRONJOB_ITERATION  | INT  | Time between speedtests in minutes. Value 15 means the cronjob runs every 15 minutes. Keep undefined to run hourly. | 15 | 60 |
 | SPEED_DOWNLOAD_URL | STRING  | url to file or page | https://cloud-images.ubuntu.com/minimal/releases/xenial/release/ubuntu-16.04-minimal-cloudimg-amd64-root.tar.xz | none |
+
+# Prometheus gauges
+- speedtest_last_downloading_time
+- speedtest_last_speed
 
 # Config
 You can configure the visualization frontend via ``appConfig.js``

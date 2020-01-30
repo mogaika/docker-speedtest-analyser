@@ -11,7 +11,12 @@ crontab /var/www/html/config/crontab
 echo "Starting Cronjob"
 crond -l 2 -f &
 
-echo "Starting nginx"
-exec nginx -g "daemon off;"
+echo "starting nginx"
+nginx -g "daemon off;" &
+P1=$!
 
-exit 0;
+echo "starting prometeus reporter"
+python /var/www/html/scripts/reporter.py &
+P2=$!
+
+wait $P1 $P2
